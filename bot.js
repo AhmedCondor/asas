@@ -3,6 +3,7 @@ const client = new Discord.Client();
 var prefix = "." ; /// البرفكس
 const moment = require('moment');
 
+const welcome = JSON.parse(fs.readFileSync('./welcomer.json' , 'utf8'));
 
 const fs = require("fs");
 client.on('ready', () => {
