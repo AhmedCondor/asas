@@ -36,6 +36,7 @@ client.on('ready', () => {
 let vojson = JSON.parse(fs.readFileSync('vojson.json', 'utf8'))
 client.on('message', message => {
     if(message.content.startsWith(prefix + "setVc")) {
+            if(!message.member.hasPermission("MANAGE_MESSAGE")) return;
 let channel = message.content.split(" ").slice(1).join(" ")
 let channelfind = message.guild.channels.find('name', `${channel}`)
 if(!channel) return message.channel.send('Please Type The Voice Channel Name Example: !setVc <Channel name>')
