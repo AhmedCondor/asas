@@ -37,7 +37,7 @@ client.on('message', message => {
 let channel = message.content.split(" ").slice(1).join(" ")
 let channelfind = message.guild.channels.find('name', `${channel}`)
 if(!channel) return message.channel.send('Please Type The Voice Channel Name Example: !setVc <Channel name>')
-if(!channelfind) return message.channel.send('Please Type The Voice Channel Name Example: !setVc <Channel name>')
+if(!channelfind) return message.channel.send('**يوجد خطا ف اسم الروم او انها غير موجوده **')
 vojson[message.guild.id] = {
 stats: 'enable',
 chid: channelfind.id,
