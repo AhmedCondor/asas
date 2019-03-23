@@ -51,6 +51,9 @@ channelfind.setName(`VoiceOnline: ${message.guild.members.filter(m => m.voiceCha
 message.channel.send('**Done The Voice Online  Is Turned On**')
 }
     if(message.content.startsWith(prefix + "vc off")) {
+
+    if(!message.channel.guild) return message.reply('⛔ | This Command For Servers Only!'); 
+        if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('⛔ | You dont have **MANAGE_MESSAGES** Permission!');
       message.guild.channels.find('id', `${vojson[message.guild.id].chid}`).delete()
     vojson[message.guild.id] = {
         stats: 'disable',
