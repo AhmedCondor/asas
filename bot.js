@@ -1,6 +1,6 @@
                   const Discord = require('discord.js');
 const client = new Discord.Client();
-var prefix = "-" ; /// البرفكس
+var prefix = "." ; /// البرفكس
 const moment = require('moment');
 
 
