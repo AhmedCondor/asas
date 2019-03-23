@@ -31,143 +31,54 @@ client.on('ready', () => {
 });
  
 
-///avatarr
 
 
-  var prefix = "-";
-    client.on('message', message => {
-    if(message.content.startsWith(prefix + 'avatar')) {
-         var men = message.mentions.users.first();
-   var heg;
-      if(men) {
-          heg = men
-      } else {
-          heg = message.author
-      }
-  var avatar = new Discord.RichEmbed()
-.setColor('RANDOM')
-.setTitle(heg.username)
-.setImage(heg.avatarURL)
-
-message.channel.sendEmbed(avatar)
-    }
-});
-
-
-
-/////////خرج البوت من السيرفر
-
-client.on('message', message=>{
-    if (message.content ===  "-CondorLeave"){
-    message.guild.leave();
+let vojson = JSON.parse(fs.readFileSync('vojson.json', 'utf8'))
+client.on('message', message => {
+    if(message.content.startsWith(prefix + "setVc")) {
+let channel = message.content.split(" ").slice(1).join(" ")
+let channelfind = message.guild.channels.find('name', `${channel}`)
+if(!channel) return message.channel.send('Please Type The Voice Channel Name Example: !setVc <Channel name>')
+if(!channelfind) return message.channel.send('Please Type The Voice Channel Name Example: !setVc <Channel name>')
+vojson[message.guild.id] = {
+stats: 'enable',
+chid: channelfind.id,
+guild: message.guild.id
+ 
+}
+channelfind.setName(`VoiceOnline: ${message.guild.members.filter(m => m.voiceChannel).size}`)
+message.channel.send('**Done The Voice Online  Is Turned On**')
+}
+    if(message.content.startsWith(prefix + "vc off")) {
+      message.guild.channels.find('id', `${vojson[message.guild.id].chid}`).delete()
+    vojson[message.guild.id] = {
+        stats: 'disable',
+        chid: 'undefined',
+        guild: message.guild.id
+        }
+        message.channel.send('**Done The Voice Online Is Turned Off**')
+ 
+}
+fs.writeFile("./vojson.json", JSON.stringify(vojson), (err) => {
+    if (err) console.error(err)
+  })
+})
+ 
+client.on('voiceStateUpdate', (oldMember , newMember) => {
+            if(!vojson[oldMember.guild.id]) vojson[oldMember.guild.id] = {
+                stats: 'disable',
+                chid: 'undefined',
+                guild: 'undefined'
             }
-});
- 
-//////////////join server
-client.on('guildCreate', guild => {
-client.channels.get("552107150550368282").send(`✅ **${client.user.tag} دخل سيرفر جديد
-Server name: __${guild.name}__
-Server owner: __${guild.owner}__
-Server id: __${guild.id}__ 
-Server Count: __${guild.memberCount}__**`)
-}); //Codes
-client.on('guildDelete', guild => {
-  client.channels.get("552107232062603275").send(`❎ **${client.user.tag} طلع من سيرفر
-Server name: __${guild.name}__
-Server owner: __${guild.owner}__
-Server id: __${guild.id}__ 
-Server Count: __${guild.memberCount}__**`)
-});//Codes
- 
-
-////log  
- //////////////// ////////////////////// ////////////////////////////////uptime el bot 48al men emta 
-
-
-client.on('message', message => {
-    var prefix = "-"
-if (message.content.startsWith(prefix + "uptime2")) {
-   let uptime = client.uptime;
-
-   let days = 0;
-   let hours = 0;
-   let minutes = 0;
-   let seconds = 0;
-   let notCompleted = true;
-
-   while (notCompleted) {
-
-       if (uptime >= 8.64e+7) {
-
-           days++;
-           uptime -= 8.64e+7;
-
-       } else if (uptime >= 3.6e+6) {
-
-           hours++;
-           uptime -= 3.6e+6;
-
-       } else if (uptime >= 60000) {
-
-           minutes++;
-           uptime -= 60000;
-
-       } else if (uptime >= 1000) {
-           seconds++;
-           uptime -= 1000;
-
-       }
-
-       if (uptime < 1000)  notCompleted = false;
-
-   }
-
-   message.channel.send("`" + `${days} days, ${hours} hrs, ${minutes} min , ${seconds} sec` + "`");
-
-
-}
-});
- 
-
-///////setcount عد الميمبر
-  client.on('message',async message => {
-    if(message.content.startsWith(prefix + "setCount")) {
-    if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('❌ **ليس لديك الصلاحيات الكافية**');
-    if(!message.guild.member(client.user).hasPermissions(['MANAGE_CHANNELS','MANAGE_ROLES_OR_PERMISSIONS'])) return message.reply('❌ **ليس معي الصلاحيات ال��افية**');
-    message.channel.send('✅| **تم عمل الروم بنجاح**');
-    message.guild.createChannel(`Members Count : [ ${message.guild.members.size} ]` , 'voice').then(c => {
-      console.log(`Count Members channel setup for guild: \n ${message.guild.name}`);
-      c.overwritePermissions(message.guild.id, {
-        CONNECT: false,
-        SPEAK: false
-      });
-      setInterval(function() {
-        c.setName(`Members Count : [ ${message.guild.members.size} ]`)
-      },1000);
-    });
-    }
-  });
- 
-////////////////alllbots
-client.on('message', message => {
-     if(!message.channel.guild) return;
-                if(message.content.startsWith(prefix + 'allbots')) {
-
-    
-    if (message.author.bot) return;
-    let i = 1;
-        const botssize = message.guild.members.filter(m=>m.user.bot).map(m=>`${i++} - <@${m.id}>`);
-          const embed = new Discord.RichEmbed()
-          .setAuthor(message.author.tag, message.author.avatarURL)
-          .setDescription(`**Found ${message.guild.members.filter(m=>m.user.bot).size} bots in this Server**
-${botssize.join('\n')}`)
-.setFooter(client.user.username, client.user.avatarURL)
-.setTimestamp();
-message.channel.send(embed)
-
-}
-
-
-});
+                    if (vojson[oldMember.guild.id].stats === 'enable') {
+                        let ch = vojson[oldMember.guild.id].chid
+                        let channel = oldMember.guild.channels.get(ch)
+                        let guildid = vojson[oldMember.guild.id].guild
+                        channel.setName(`VoiceOnline: ${oldMember.guild.members.filter(m => m.voiceChannel).size}`)
+                    };
+                    if (vojson[oldMember.guild.id].stats === 'disable') {
+                    return;
+                    }
+        });
 
 client.login(process.env.BOT_TOKEN);
