@@ -30,60 +30,34 @@ client.on('ready', () => {
   console.log('')
 });
  
-
-let vojson = JSON.parse(fs.readFileSync('vojson.json', 'utf8'))
 client.on('message', message => {
-    if(message.content.startsWith(prefix + "setVc")) {
-
-    if(!message.channel.guild) return message.reply('⛔ | This Command For Servers Only!'); 
-        if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('⛔ | You dont have **MANAGE_MESSAGES** Permission!');
-let channel = message.content.split(" ").slice(1).join(" ")
-let channelfind = message.guild.channels.find('name', `${channel}`)
-if(!channel) return message.channel.send('**Please Type The Voice Channel Name Example: -setVc <Channel name>**')
-if(!channelfind) return message.channel.send('**يوجد خطا ف اسم الروم او انها غير موجوده **')
-vojson[message.guild.id] = {
-stats: 'enable',
-chid: channelfind.id,
-guild: message.guild.id
+           if (!message.channel.guild) return;
  
+    let room = message.content.split(" ").slice(1);
+    let findroom = message.guild.channels.find('name', `${room}`)
+    if(message.content.startsWith(prefix + "setWelcomer")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
+if(!room) return message.channel.send('Please Type The Channel Name')
+if(!findroom) return message.channel.send('Cant Find This Channel')
+let embed = new Discord.RichEmbed()
+.setTitle('**Done The Welcome Code Has Been Setup**')
+.addField('Channel:', `${room}`)
+.addField('Requested By:', `${message.author}`)
+.setThumbnail(message.author.avatarURL)
+.setFooter(`${client.user.username}`)
+message.channel.sendEmbed(embed)
+welcome[message.guild.id] = {
+channel: room,
+onoff: 'On',
+by: 'On',
+dm: 'Off',
+leave: 'Off'
 }
-channelfind.setName(`VoiceOnline: ${message.guild.members.filter(m => m.voiceChannel).size}`)
-message.channel.send('**Done The Voice Online  Is Turned On**')
-}
-    if(message.content.startsWith(prefix + "vc off")) {
-
-    if(!message.channel.guild) return message.reply('⛔ | This Command For Servers Only!'); 
-        if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('⛔ | You dont have **MANAGE_MESSAGES** Permission!');
-      message.guild.channels.find('id', `${vojson[message.guild.id].chid}`).delete()
-    vojson[message.guild.id] = {
-        stats: 'disable',
-        chid: 'undefined',
-        guild: message.guild.id
-        }
-        message.channel.send('**Done The Voice Online Is Turned Off**')
- 
-}
-fs.writeFile("./vojson.json", JSON.stringify(vojson), (err) => {
-    if (err) console.error(err)
-  })
+fs.writeFile("./welcomer.json", JSON.stringify(welcome), (err) => {
+if (err) console.error(err)
 })
- 
-client.on('voiceStateUpdate', (oldMember , newMember) => {
-            if(!vojson[oldMember.guild.id]) vojson[oldMember.guild.id] = {
-                stats: 'disable',
-                chid: 'undefined',
-                guild: 'undefined'
-            }
-                    if (vojson[oldMember.guild.id].stats === 'enable') {
-                        let ch = vojson[oldMember.guild.id].chid
-                        let channel = oldMember.guild.channels.get(ch)
-                        let guildid = vojson[oldMember.guild.id].guild
-                        channel.setName(`VoiceOnline: ${oldMember.guild.members.filter(m => m.voiceChannel).size}`)
-                    };
-                    if (vojson[oldMember.guild.id].stats === 'disable') {
-                    return;
-                    }
-        });
+    }})
 
 
 client.login(process.env.BOT_TOKEN);
