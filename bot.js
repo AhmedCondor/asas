@@ -1,7 +1,7 @@
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-var prefix = "-" ; /// البرفكس
+var prefix = "+" ; /// البرفكس
 const moment = require('moment');
 
 
@@ -110,7 +110,7 @@ client.on('message', message => {
         if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
         if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
 if(!room) return message.channel.send('Please Type The Channel Name')
-if(!findroom) return message.channel.send('Cant Find This Channel')
+if(!findroom) return message.channel.send('**Cant Find This Channel**')
 let embed = new Discord.RichEmbed()
 .setTitle('**Done The Welcome Code Has Been Setup**')
 .addField('Channel:', `${room}`)
