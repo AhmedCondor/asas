@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+                  const Discord = require('discord.js');
 const client = new Discord.Client();
 var prefix = "-" ; /// البرفكس
 const moment = require('moment');
@@ -36,7 +36,7 @@ client.on('message', message => {
     if(message.content.startsWith(prefix + "setVc")) {
 let channel = message.content.split(" ").slice(1).join(" ")
 let channelfind = message.guild.channels.find('name', `${channel}`)
-if(!channel) return message.channel.send('Please Type The Voice Channel Name Example: !setVc <Channel name>')
+if(!channel) return message.channel.send('**Please Type The Voice Channel Name Example: -setVc <Channel name>**')
 if(!channelfind) return message.channel.send('**يوجد خطا ف اسم الروم او انها غير موجوده **')
 vojson[message.guild.id] = {
 stats: 'enable',
