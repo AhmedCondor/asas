@@ -31,201 +31,185 @@ client.on('ready', () => {
   console.log('')
 });
  
-
-/////////////////log
-///////welcomer
-
-const welcome = JSON.parse(fs.readFileSync('./welcomer.json' , 'utf8'));
-client.on('message', async message => {
-    let messageArray = message.content.split(" ");
-   if(message.content.startsWith(prefix + "setLeave")) {
-             
-    let filter = m => m.author.id === message.author.id;
-    let thisMessage;
-    let thisFalse;
+ client.on('message', message => {
  
-    if(!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send('You don\'t have permission').then(msg => {
-       msg.delete(4500);
-       message.delete(4500);
-    });
-   
-    message.channel.send(':pencil: **| من فضلك اكتب الرساله الان... :pencil2: **').then(msg => {
+ var ms = require('ms')
  
-        message.channel.awaitMessages(filter, {
-          max: 1,
-          time: 90000,
-          errors: ['time']
-        })
-        .then(collected => {
-            collected.first().delete();
-            thisMessage = collected.first().content;
-            let boi;
-            msg.edit(':scroll: **| اكتب اسم الروم الان... :pencil2: **').then(msg => {
+ var moment = require('moment');
+ 
+ if (message.author.bot) return;
+ 
+ if (!message.content.startsWith(prefix)) return;
+ 
+ let command = message.content.split(" ")[0];
+ 
+ command = command.slice(prefix.length);
+ 
+ let args = message.content.split(" ").slice(1);
+ 
+ let messageArray = message.content.split(" ");
+ 
+ let embed = new Discord.RichEmbed()
+ 
+.setImage("https://d.top4top.net/p_10880lo1r1.png")
+ 
+ if (command == "ban") {
+ 
+ if(!message.channel.guild) return message.reply('** This command only for servers**');
+         
+ if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**:x: You Don't Have ` BAN_MEMBERS ` Permission**");
+ 
+ if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**:x: I Don't Have ` BAN_MEMBERS ` Permission**");
+ 
+ let user = message.mentions.users.first();
+ 
+ let Reason = message.content.split(" ").slice(3).join(" ");
+ 
+ let time = messageArray[2];
+ 
+ if (message.mentions.users.size < 1) return message.channel.sendEmbed(embed)
+ 
+ if (!message.guild.member(user).bannable) return message.reply("**:x:I Don't Have Permission For Ban This User**");
+ 
+ if(!time.match(/[1-60][s,m,h,d,w]/g))  return message.channel.send(':x: This Time Is Incorrect')
+ 
+ if(!Reason)  {
+ 
+ message.guild.member(user).ban({reason: Reason})
+ 
+ }
+ 
+  if(!Reason && time) {
+ 
+  message.guild.member(user).ban(7, user);
+ 
+  }  
+ 
+  if(!time) {
+ 
+  message.guild.member(user).ban(7, user);
+ 
+  }
+  if(time) {
+ 
+  setTimeout(() => {
+ 
+  message.guild.unban(user);
+ 
+  }, ms(time));
+ 
+  }
+ 
+  if(time && Reason && user) {
+ 
+  message.guild.member(user).ban({reason: Reason})
      
-                message.channel.awaitMessages(filter, {
-                  max: 1,
-                  time: 90000,
-                  errors: ['time']
-                })
-                .then(collected => {
-                    collected.first().delete();
-                    boi = collected.first().content;
-                    msg.edit('✅ **| تم الاعداد بنجاح...  **').then(msg => {
-       
-                      message.channel.awaitMessages(filter, {
-                        max: 1,
-                        time: 90000,
-                        errors: ['time']
-                      })
-                      let embed = new Discord.RichEmbed()
-                      .setTitle('**Done The Leave Msg Code Has Been Setup**')
-                      .addField('Message:', `${thisMessage}`)
-                      .addField('Channel:', `${boi}`)
-                      .setThumbnail(message.author.avatarURL)
-                      .setFooter(`${client.user.username}`)
-                     message.channel.sendEmbed(embed)
-    welcome[message.guild.id] = {
-leavechannel: boi,
-leavemsg: thisMessage,
-onoff: 'On',
-leave: 'On'
-    }
-    fs.writeFile("./welcomer.json", JSON.stringify(welcome), (err) => {
-    if (err) console.error(err)
-  })
-   }
-            )
-        })
-    })
-})
-    })
-}})
-   
+     
+  setTimeout(() => {
+ 
+  message.guild.unban(user);
+ 
+  }, ms(time));
+ 
+  }
+ 
+  message.channel.send(`:white_check_mark:  ${user.tag} banned from the server ! :airplane:`)
+ 
+  }
+ 
+  });
+ 
+ 
 client.on('message', message => {
-           if (!message.channel.guild) return;
  
-    let room = message.content.split(" ").slice(1);
-    let findroom = message.guild.channels.find('name', `${room}`)
-    if(message.content.startsWith(prefix + "setWelcomer")) {
-        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
-        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
-if(!room) return message.channel.send('Please Type The Channel Name')
-if(!findroom) return message.channel.send('**Cant Find This Channel**')
-let embed = new Discord.RichEmbed()
-.setTitle('**Done The Welcome Code Has Been Setup**')
-.addField('Channel:', `${room}`)
-.addField('Requested By:', `${message.author}`)
-.setThumbnail(message.author.avatarURL)
-.setFooter(`${client.user.username}`)
-message.channel.sendEmbed(embed)
-welcome[message.guild.id] = {
-channel: room,
-onoff: 'On',
-by: 'On',
-dm: 'Off',
-leave: 'Off'
-}
-fs.writeFile("./welcomer.json", JSON.stringify(welcome), (err) => {
-if (err) console.error(err)
-})
-    }})
+  var ms = require('ms')
+ 
+  var moment = require('moment');
+ 
    
-
-       
+  if (message.author.bot) return;
+ 
+  if (!message.content.startsWith(prefix)) return;
+ 
+  let command = message.content.split(" ")[0];
+ 
+  command = command.slice(prefix.length);
+ 
+  let args = message.content.split(" ").slice(1);
+ 
+  let messageArray = message.content.split(" ");
+ 
+  let muteRole = message.guild.roles.find("name", "Muted");
+   
+  let embed = new Discord.RichEmbed()
+ 
+ .setImage("https://c.top4top.net/p_108825enp1.png")
+ 
+  if (command == "mute") {
+   
+  if(!muteRole) return message.guild.createRole({ name: "Muted", permissions: [] });
+ 
+  if(!message.channel.guild) return message.reply('** This command only for servers**');
+         
+  if(!message.guild.member(message.author).hasPermission("MUTE_MEMBERS")) return message.reply("**:x: You Don't Have ` MUTE_MEMBERS ` Permission**");
+ 
+  if(!message.guild.member(client.user).hasPermission("MUTE_MEMBERS")) return message.reply("**:x: I Don't Have ` MUTE_MEMBERS ` Permission**");
+ 
+  let user = message.mentions.users.first();
+ 
+  let Reason = message.content.split(" ").slice(4).join(" ");
+ 
+  let time = messageArray[2];
+ 
+  if (message.mentions.users.size < 1) return message.channel.sendEmbed(embed)
+   
+  if (!message.guild.member(user).bannable) return message.reply("**:x:I Don't Have Permission For Mute This User**");
+ 
+  if(!Reason)  {
+ 
+    message.guild.member(user).addRole(muteRole);
+ 
+  }
+ 
+   if(!Reason && time) {
+ 
+    message.guild.member(user).addRole(muteRole);
+ 
+   }  
+ 
+   if(!time) {
+ 
+    message.guild.member(user).addRole(muteRole);
+ 
+   }
+   if(time) {
+    if(!time.match(/[1-60][s,m,h,d,w]/g))  return message.channel.send(':x: This Time Is Incorrect')
+ 
+   setTimeout(() => {
+ 
+    message.guild.member(user).removeRole(muteRole);
+ 
+   }, ms(time));
+ 
+   }
+ 
+   if(time && Reason && user) {
+ 
+    message.guild.member(user).addRole(muteRole);
  
        
-
+   setTimeout(() => {
  
-        client.on('message', message => {
+    message.guild.member(user).removeRole(muteRole);
+   
+   }, ms(time));
  
-            if(message.content.startsWith(prefix + "toggleInvitedby")) {
-                if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
-                if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
-                if(!welcome[message.guild.id]) welcome[message.guild.id] = {
-                  by: 'Off'
-                }
-                  if(welcome[message.guild.id].by === 'Off') return [message.channel.send(`**The Invited By Is __𝐎𝐍__ !**`), welcome[message.guild.id].by = 'On']
-                  if(welcome[message.guild.id].by === 'On') return [message.channel.send(`**The Invited By Is __𝐎𝐅𝐅__ !**`), welcome[message.guild.id].by = 'Off']
-                  fs.writeFile("./welcome.json", JSON.stringify(welcome), (err) => {
-                    if (err) console.error(err)
-                    .catch(err => {
-                      console.error(err);
-                  });
-                    })
-                  }
-                 
-                })
-      client.on("guildMemberRemove", member => {
-            if(!welcome[member.guild.id]) welcome[member.guild.id] = {
-          onoff: 'Off',
-          leave: 'Off'
-        }
-       
-        if(welcome[member.guild.id].onoff === 'Off') return;
-                if(welcome[member.guild.id].leave === 'Off') return;
-    let welcomer = member.guild.channels.find('name', `${welcome[member.guild.id].leavechannel}`)
-    if(!welcomer) return;
-     welcomer.send(`${member} ${welcome[member.guild.id].leavemsg}`);
-      })          
+   }
  
-client.on("guildMemberAdd", member => {
-            if(!welcome[member.guild.id]) welcome[member.guild.id] = {
-          onoff: 'Off'
-        }
-        if(welcome[member.guild.id].onoff === 'Off') return;
-    let welcomer = member.guild.channels.find('name', `${welcome[member.guild.id].channel}`)
-    let memberavatar = member.user.avatarURL
-      if (!welcomer) return;
-      if(welcomer) {
-         moment.locale('ar-ly');
-         var h = member.user;
-        let heroo = new Discord.RichEmbed()
-        .setColor('RANDOM')
-        .setThumbnail(h.avatarURL)
-        .setAuthor(h.username,h.avatarURL)
-        .addField(': تاريخ دخولك الدسكورد',`${moment(member.user.createdAt).format('D/M/YYYY h:mm a')} **\n** \`${moment(member.user.createdAt).fromNow()}\``,true)
-         .setFooter(`${h.tag}`,"https://images-ext-2.discordapp.net/external/JpyzxW2wMRG2874gSTdNTpC_q9AHl8x8V4SMmtRtlVk/https/orcid.org/sites/default/files/files/ID_symbol_B-W_128x128.gif")
-     welcomer.send({embed:heroo});
-      }})
+   message.channel.send(`:white_check_mark: ${user} has been muted ! :zipper_mouth:`)
  
+   }
  
- 
-
-  const invites = {};
- 
-const wait = require('util').promisify(setTimeout);
- 
-client.on('ready', () => {
-  wait(1000);
- 
-  client.guilds.forEach(g => {
-    g.fetchInvites().then(guildInvites => {
-      invites[g.id] = guildInvites;
-    });
-  });
 });
- 
-client.on('guildMemberAdd', member => {
-                    if(!welcome[member.guild.id]) welcome[member.guild.id] = {
-                  by: 'Off'
-                }
-    if(welcome[member.guild.id].by === 'Off') return;
-  member.guild.fetchInvites().then(guildInvites => {
-    const ei = invites[member.guild.id];
-    invites[member.guild.id] = guildInvites;
-    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
-    const inviter = client.users.get(invite.inviter.id);
-    const logChannel = member.guild.channels.find(channel => channel.name === `${welcome[member.guild.id].channel}`);
-    if(!logChannel) return;
-      setTimeout(() => {
-    logChannel.send(`**Welcome ,${member} 
-Invited by, <@${inviter.id}>**
-`);
-  },2000)
-  });
-});
- 
-
-
 
 client.login(process.env.BOT_TOKEN);
