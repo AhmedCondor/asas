@@ -212,4 +212,24 @@ client.on('message', message => {
  
 });
 
+
+
+client.on('message', message => {
+  if (message.author.bot) return;
+  if (message.content.startsWith(prefix + "help")) {
+      message.author.send(`\`\`\`css
+**
+❯ Informetion Commands | الأوامر التعريفية :
+
+
+» \`$settings\` : رؤية ما يمكن إعدادة في البوت
+» \`$ping\` : رؤية سرعة البوت
+» \`$invite\` : لدعوة البوت**
+
+`)
+
+
+  }
+});
+
 client.login(process.env.BOT_TOKEN);
