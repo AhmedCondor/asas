@@ -233,4 +233,43 @@ client.on('message', message => {
   }
 });
 
+
+
+
+let developers = ["512625982751113216","441584713799303183"];
+
+client.on('message', message => {
+    var argresult = message.content.split(` `).slice(1).join(' ');
+      if (!developers.includes(message.author.id)) return;
+      
+  if (message.content.startsWith(prefix + 'setgame')) {
+    client.user.setGame(argresult);
+      message.channel.send(`**Game Set : ${argresult}**`)
+  } else 
+  if (message.content.startsWith(prefix + 'setwatch')) {
+  client.user.setActivity(argresult, {type:'WATCHING'});
+      message.channel.send(`**Watching : ${argresult}**`)
+  } else 
+  if (message.content.startsWith(prefix + 'setlisten')) {
+  client.user.setActivity(argresult , {type:'LISTENING'});
+      message.channel.send(`**Listening : ${argresult}**`)
+  } else 
+  if (message.content.startsWith(prefix + 'setstream')) {
+    client.user.setGame(argresult, "https://www.twitch.tv/middleeast");
+      message.channel.send(`Streaming is available now`)
+  }
+  if (message.content.startsWith(prefix + 'setname')) {
+  client.user.setUsername(argresult).then
+      message.channel.send(`Changing The Name To ..**${argresult}** `)
+} else
+if (message.content.startsWith(prefix + 'setavatar')) {
+  client.user.setAvatar(argresult);
+    message.channel.send(`Changing The Avatar To :**${argresult}** `);
+}
+});
+client.on('message', message => {
+    if(message.content.startsWith(prefix + "vip")) {
+message.channel.send(`**- Start in \`15/02/2019\` \n- End in : \`15/03/2019\`\n- Owners: ${message.guild.owner}**`);
+    }
+})
 client.login(process.env.BOT_TOKEN);
