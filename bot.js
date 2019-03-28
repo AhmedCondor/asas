@@ -226,6 +226,7 @@ client.on('message', message => {
 » \`$ping\` : رؤية سرعة البوت
 » \`$invite\` : لدعوة البوت**
 
+\`\`\`
 `)
 
 
