@@ -224,7 +224,7 @@ client.on('message', message => {
 
 » $settings : رؤية ما يمكن إعدادة في البوت
 » $ping : رؤية سرعة البوت
-» $invite : لدعوة البوت**
+» $invite : لدعوة البوت
 
 \`\`\`
 `)
