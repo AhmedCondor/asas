@@ -218,14 +218,14 @@ client.on('message', message => {
   if (message.author.bot) return;
   if (message.content.startsWith(prefix + "help")) {
       message.author.send(`\`\`\`asciidoc
-**
+
 ❯ Informetion Commands | الأوامر التعريفية :
 
 
-» \`$settings\` : رؤية ما يمكن إعدادة في البوت
-» \`$ping\` : رؤية سرعة البوت
-» \`$invite\` : لدعوة البوت**
-**
+» $settings : رؤية ما يمكن إعدادة في البوت
+» $ping : رؤية سرعة البوت
+» $invite : لدعوة البوت**
+
 \`\`\`
 `)
 
