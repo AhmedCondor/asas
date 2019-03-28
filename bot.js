@@ -217,7 +217,7 @@ client.on('message', message => {
 client.on('message', message => {
   if (message.author.bot) return;
   if (message.content.startsWith(prefix + "help")) {
-      message.author.send(`\`\`\`asciidoc
+      message.author.send(`\`\`\`fix
 
 ❯ Informetion Commands | الأوامر التعريفية :
 
