@@ -217,7 +217,7 @@ client.on('message', message => {
 client.on('message', message => {
   if (message.author.bot) return;
   if (message.content.startsWith(prefix + "help")) {
-      message.author.send(`\`\`\`css
+      message.author.send(`\`\`\`asciidoc
 **
 ❯ Informetion Commands | الأوامر التعريفية :
 
@@ -225,7 +225,7 @@ client.on('message', message => {
 » \`$settings\` : رؤية ما يمكن إعدادة في البوت
 » \`$ping\` : رؤية سرعة البوت
 » \`$invite\` : لدعوة البوت**
-
+**
 \`\`\`
 `)
 
