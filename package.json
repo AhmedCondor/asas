@@ -30,6 +30,7 @@
       "discord.js": "11.1.0",
       "ffmpeg-binaries": "3.2.2-3",
       "fs": "0.0.1-security",
+      "hh-mm-ss": "^1.2.0",
       "get-youtube-id": "^1.0.0",
       "moment": "2.22.1",
       "moment-duration-format": "^2.2.2",
