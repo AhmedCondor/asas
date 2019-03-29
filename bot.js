@@ -128,7 +128,7 @@ inline: true
         const permissions = voiceChannel.permissionsFor(message.client.user)
         if (!permissions.has('CONNECT')) return message.channel.send({embed: {description: "** :x: | ليس لدي صلاحيات لدخول الروم**"}});
         if (!permissions.has('SPEAK')) return message.channel.send({embed: {description: "** :x: | ليس لدي صلاحيات للتكلم في الروم **"}});
-         if (args.length == 0 || !args) return message.channel.send(`**:musical_note: | $play \`SONGLINK|NAME\`**`)
+         if (args.length == 0 || !args) return message.channel.send(`**:musical_note: | -play \`SONGLINK|NAME\`**`)
             if (guilds[message.guild.id].queue.length > 0 || guilds[message.guild.id].isPlaying) {
                 if(guilds[message.guild.id].queue.length > 100) return message.channel.send(``, {embed: {
                     description: `**🔒 | عذرًا ، الحد الأقصى لطول قائمة الانتظار هو 100 ، افعل ** $clear  لمسح قائمة الانتظار بالكامل أو  $clear \`NUMBER\` لمسح عنصر واحد**`
